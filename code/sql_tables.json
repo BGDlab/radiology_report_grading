@@ -2,7 +2,6 @@
     "grader_table" : "grader_table",
     "project_table" : "proc_ord_projects",
     "skipped_reports_table" : "skipped_reports",
-    "req_table" : "requested_sessions",
     "source_table" : "narrative",
     "impression_table" : "impression",
     "procedure_table" : "procedures",

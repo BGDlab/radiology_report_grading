@@ -212,6 +212,50 @@ def regrade_skipped_reports(client, project_name="", grader="", flag=-1):
             print("New grade saved. Run the cell again to grade another report.")
 
 
+def mark_text_color(line, to_mark, color):
+    """
+    Highlight a string of text
+
+    Args:
+        line (string): Text of a radiology report
+        to_mark (string): Text to highlight
+        color (string): Color to highlight text in
+
+    Return:
+        line (string): Input string with specified text highlight in the 
+        specified color with bold black text
+
+    """
+    # Sort the list of strings to highlight by length (longest to shortest)
+    to_mark = sorted(to_mark, key=len)[::-1]
+
+    if color == "green":
+        start = "\x1b[5;30;42m"  # green background, bold black text
+    elif color == "yellow":
+        start = "\x1b[5;30;43m"  # yellow background, bold black text
+    elif color == "red":
+        start = "\x1b[5;30;41m"  # red background, bold black text
+    elif color == "gray" or color == "grey":
+        start = "\x1b[5;30;47m"  # gray background, bold black text
+
+    end = "\x1b[0m"
+
+    if line is np.nan:
+        return "<No report available.>"
+
+    if type(to_mark) == str:
+        line = line.replace(to_mark, start + to_mark + end)
+
+    elif type(to_mark) == list:
+        for phrase in to_mark:
+            line = line.replace(str(phrase), start + str(phrase).upper() + end)
+
+    else:
+        print("Error: the second argument must be either a string or a list of strings")
+
+    return line
+
+
 def print_report_from_proc(proc_ord_id, client, to_highlight={}, source_table="narrative"):
     """
     Print a report for a user to evaluate and grade
